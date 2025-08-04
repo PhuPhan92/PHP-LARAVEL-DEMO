@@ -75,6 +75,11 @@
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
+                            <a class="nav-link {{ request()->is('') ? 'active' : '' }}" href="/">
+                                <i class="bi bi-house me-2"></i> Trang chủ
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{ request()->is('productivities*') ? 'active' : '' }}" href="/productivities">
                                 <i class="bi bi-box-seam me-2"></i> Năng suất
                             </a>
