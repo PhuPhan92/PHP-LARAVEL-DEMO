@@ -15,22 +15,40 @@ class ReportController extends Controller
         $query = Productivity::selectRaw('style, po, manufacture_date, SUM(product_output) as total')
             ->groupBy('style', 'po', 'manufacture_date');
 
-        // Thêm điều kiện search
-        if ($request->filled('style')) {
-            $query->where('style', $request->input('style'));
-        }
+        $hasSearchConditions = $request->filled('style') || 
+                               $request->filled('po') || 
+                               $request->filled('fromDate') || 
+                               $request->filled('toDate');
 
-        if ($request->filled('po')) {
-            $query->where('po', $request->input('po'));
-        }
+        if (!$hasSearchConditions) {
+            $tenDaysAgo = now()->subDays(9)->format('Y-m-d');
+            $today = now()->format('Y-m-d');
+                    
+            $query->whereBetween('manufacture_date', [$tenDaysAgo, $today]);
+        }else {
+            if ($request->filled('style')) {
+                $query->where('style', $request->input('style'));
+            }
 
-        if ($request->filled('fromDate') && $request->filled('toDate')) {
-            $query->whereBetween('manufacture_date', [
-                $request->input('fromDate'),
-                $request->input('toDate')
-            ]);
-        }
+            if ($request->filled('po')) {
+                $query->where('po', $request->input('po'));
+            }
 
+            if ($request->filled('fromDate') && $request->filled('toDate')) {
+                $query->whereBetween('manufacture_date', [
+                    $request->input('fromDate'),
+                    $request->input('toDate')
+                ]);
+            }
+            elseif ($request->filled('fromDate')) {
+                $query->where('manufacture_date', '>=', $request->input('fromDate'));
+            }
+            elseif ($request->filled('toDate')) {
+                $query->where('manufacture_date', '<=', $request->input('toDate'));
+            }
+
+        }                      
+       
         $data = $query->orderBy('manufacture_date', 'DESC')->get();
         return view('report.index', compact( 'styles', 'pos', 'data'));
     }
