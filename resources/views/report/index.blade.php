@@ -12,7 +12,7 @@
         @endsession
  
         <form method="GET" action="/report">
-            <div class="input-group" style="margin-right:5px;">
+            <div class="input-group" style="margin-right:5px; margin-bottom:20px " >
                 <div class="form-outline" data-mdb-input-init>
                     <label class="form-label"> <strong>Style: </strong></label>
                      <select class="form-select" name="style" id="style">
@@ -70,7 +70,7 @@
         @if($data->isEmpty())
             <div class="alert alert-warning mt-3">Không có dữ liệu phù hợp</div>
         @else
-            <canvas id="myChart" height="100"></canvas>
+            <canvas id="myChart" height="100" ></canvas>
             <script>
     const ctx = document.getElementById('myChart').getContext('2d');
     const chartData = @json($data);

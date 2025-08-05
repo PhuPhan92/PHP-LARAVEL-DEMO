@@ -30,9 +30,8 @@ class ProductivityController extends Controller
             "style" => "required",
             "po" => "required",
             "manufacture_date" => "required|date|before_or_equal:today",
-            "employee_quantity" => "required",
-            "product_output" => "required",
-
+            "employee_quantity" => "required|numeric|min:0",
+            "product_output" => "required|integer|min:0",
         ],
         [
             'style.required' => 'Style không được trống!',
@@ -40,7 +39,9 @@ class ProductivityController extends Controller
             'manufacture_date.required' => 'Ngày SX không được trống!',
             'manufacture_date.before_or_equal' => 'Ngày SX không vượt quá ngày hiện tại!',
             'employee_quantity.required' => 'Số lao động không được trống!',
-            'product_output.required' => 'Sản lượng hông được trống!',
+            'product_output.required' => 'Sản lượng không được trống!',
+            'employee_quantity.min' => 'Số lao động phải ≥ 0',
+            'product_output.min' => 'Sản lượng phải ≥ 0',
         ]);
  
         Productivity::create([
@@ -67,8 +68,8 @@ class ProductivityController extends Controller
             "style" => "required",
             "po" => "required",
             "manufacture_date" => "required|date|before_or_equal:today",
-            "employee_quantity" => "required",
-            "product_output" => "required",
+            "employee_quantity" => "required|numeric|min:0",
+            "product_output" => "required|integer|min:0",
         ],
         [
             'style.required' => 'Style không được trống!',
@@ -77,6 +78,8 @@ class ProductivityController extends Controller
             'manufacture_date.before_or_equal' => 'Ngày SX không vượt quá ngày hiện tại!',
             'employee_quantity.required' => 'Số lao động không được trống!',
             'product_output.required' => 'Sản lượng không được trống!',
+            'employee_quantity.min' => 'Số lao động phải ≥ 0',
+            'product_output.min' => 'Sản lượng phải ≥ 0',
         ]);
  
         $product->update([
